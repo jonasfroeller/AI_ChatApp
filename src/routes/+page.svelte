@@ -1,4 +1,5 @@
 <script lang="ts">
+	import toast, { Toaster } from 'svelte-french-toast';
 	import { useChat } from 'ai/svelte';
 
 	const { messages, handleSubmit, input } = useChat({
@@ -6,31 +7,39 @@
 	});
 </script>
 
+<Toaster />
+
 <main class="p-8">
-	<article class="prose mb-4">
+	<article class="mb-4 prose">
 		<h1><a href="/">AI Chat App</a></h1>
 	</article>
 
 	<section class="mx-auto w-[48rem] max-w-full">
-		<div class="indicator w-full p-4 my-4 rounded-lg bg-neutral-focus border border-tertiary-focus">
+		<div class="w-full p-4 my-4 border rounded-lg indicator bg-neutral-focus border-tertiary-focus">
 			<span class="indicator-item indicator-start badge badge-primary">Chat GPT</span>
 
-			<div class="overflow-auto min-h-16 w-full max-h-96">
+			<div class="w-full overflow-auto min-h-16 max-h-96">
 				{#each $messages as message}
 					<div class="chat {message.role == 'user' ? 'chat-end' : 'chat-start'}">
 						<div class="chat-bubble">{message.content}</div>
+					</div>
+				{:else}
+					<div class="chat chat-start">
+						<div class="chat-bubble" data-error={toast.error('something went wrong...')}>
+							the chat is empty...
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 
 		<form
-			class="md:container md:mx-auto flex justify-center items-start gap-2 px-4"
+			class="flex items-start justify-center gap-2 px-4 md:container md:mx-auto"
 			on:submit={handleSubmit}
 		>
 			<textarea
 				bind:value={$input}
-				class="textarea textarea-primary w-full"
+				class="w-full textarea textarea-primary"
 				placeholder="question..."
 			/>
 			<button class="btn btn-primary">Send</button>

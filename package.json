@@ -35,6 +35,7 @@
 	"type": "module",
 	"dependencies": {
 		"ai": "^2.1.21",
-		"openai-edge": "^1.2.0"
+		"openai-edge": "^1.2.0",
+		"svelte-french-toast": "^1.2.0"
 	}
 }
